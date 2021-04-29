@@ -27,7 +27,9 @@ loadSprite('blue-surprise', 'RMqCc1G.png')
 
 scene('1', () => {
   // define some constants
-  let JUMP_FORCE = 410
+  const JUMP_FORCE = 360
+  const BIG_JUMP_FORCE = 550
+  let CURRENT_JUMP_FORCE = JUMP_FORCE
   const MOVE_SPEED = 120
   const FALL_DEATH = 640
   const ENEMY_SPEED = 20
@@ -95,7 +97,7 @@ scene('1', () => {
     return {
       update() {
         if (isBig) {
-          JUMP_FORCE = 550
+          CURRENT_JUMP_FORCE = BIG_JUMP_FORCE
           timer -= dt()
           if (timer <= 0) {
             this.smallify()
@@ -107,7 +109,7 @@ scene('1', () => {
       },
       smallify() {
         this.scale = vec2(1)
-        JUMP_FORCE = 410
+        CURRENT_JUMP_FORCE = JUMP_FORCE
         timer = 0
         isBig = false
       },
@@ -155,7 +157,7 @@ scene('1', () => {
   player.collides('mushroom', (m) => {
     destroy(m)
     // as we defined in the big() component
-    player.biggify(3)
+    player.biggify(6)
   })
 
   // increase score if meets coin
@@ -204,7 +206,7 @@ scene('1', () => {
     // these 2 functions are provided by body() component
     if (player.grounded()) {
       isJumping = true
-      player.jump(JUMP_FORCE)
+      player.jump(CURRENT_JUMP_FORCE )
     }
   })
 
@@ -222,9 +224,8 @@ scene('1', () => {
 })
 
 scene('2', (score) => {
-  const JUMP_FORCE = 410
+  const JUMP_FORCE = 360
   const MOVE_SPEED = 120
-  const FALL_DEATH = 640
   const ENEMY_SPEED = 20
   let isJumping = false
 
@@ -284,7 +285,6 @@ scene('2', (score) => {
     pos(30, 0),
     //makes it fall with gravity
     body(),
-    // big()
   ])
 
   player.action(() => {
@@ -353,4 +353,3 @@ scene('2', (score) => {
 })
 
 start('1')
-
