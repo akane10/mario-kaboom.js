@@ -232,7 +232,8 @@ scene('1', () => {
 })
 
 // so i noticed you're copying some stuff in between scenes, 1 and 2 are both
-// game scenes which use the same logic, i'd define the scenes like
+// game scenes which use the same logic, i define them as one scene, and use
+// the scene argument to decide which level data to load
 scene('game', (level) => {
 
   const maps = [
