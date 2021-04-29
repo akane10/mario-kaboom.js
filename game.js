@@ -8,7 +8,6 @@ loadRoot('https://i.imgur.com/')
 loadSprite('coin', 'wbKxhcd.png')
 loadSprite('evil-shroom-one', 'KPO3fR9.png')
 loadSprite('evil-shroom-two', 'LmseqUG.png')
-loadSprite('flower', 'uaUm9sN.png')
 loadSprite('brick', 'pogC9x5.png')
 loadSprite('block', 'M6rwarW.png')
 loadSprite('standing-mario', 'Wb1qfhK.png')
@@ -28,7 +27,7 @@ loadSprite('blue-surprise', 'RMqCc1G.png')
 
 scene('1', () => {
   // define some constants
-  const JUMP_FORCE = 410
+  let JUMP_FORCE = 410
   const MOVE_SPEED = 120
   const FALL_DEATH = 640
   const ENEMY_SPEED = 20
@@ -96,6 +95,7 @@ scene('1', () => {
     return {
       update() {
         if (isBig) {
+          JUMP_FORCE = 550
           timer -= dt()
           if (timer <= 0) {
             this.smallify()
@@ -107,6 +107,7 @@ scene('1', () => {
       },
       smallify() {
         this.scale = vec2(1)
+        JUMP_FORCE = 410
         timer = 0
         isBig = false
       },
@@ -352,3 +353,4 @@ scene('2', (score) => {
 })
 
 start('1')
+
