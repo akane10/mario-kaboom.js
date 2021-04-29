@@ -76,7 +76,10 @@ scene('1', () => {
         //tags as strings
         'dangerous',
       ],
-      '#': [sprite('mushroom'), 'mushroom'],
+      // body() is like sprite(), they're components, we can give a body() here
+      // to this component list so every mushroom ("#") will have a body(), this
+      // list is the same list addLevel() use to add()
+      '#': [sprite('mushroom'), body(), 'mushroom'],
     }
   )
 
@@ -128,6 +131,11 @@ scene('1', () => {
     //makes it fall with gravity
     body(),
     big(),
+    // i gave mario an origin point from the bottom center, so when he grows
+    // big on the ground he'll grow from bottom center, instead of from topleft
+    // (which would push him into the ground and the collision resolution will
+    // do weird stuff)
+    origin("bot"),
   ])
 
   player.action(() => {
@@ -222,6 +230,43 @@ scene('1', () => {
     add([text(score, 32), origin('center'), pos(width() / 2, height() / 2)])
   })
 })
+
+// so i noticed you're copying some stuff in between scenes, 1 and 2 are both
+// game scenes which use the same logic, i'd define the scenes like
+scene('game', (level) => {
+
+  const maps = [
+    [
+      '     ## ',
+      '=======',
+    ],
+    [
+      ' *     ',
+      '=======',
+    ],
+  ];
+
+  const levelCfg = {
+    width: 20,
+    height: 20,
+  };
+
+  addLevel(maps[level], levelCfg);
+
+  // game logic here
+
+  action("something", () => {
+    if (someCondition) {
+      // go to the same level, but increment the level counter to load another
+      // map
+      go("game", level + 1);
+    }
+  });
+
+});
+
+// start with "game" scene and pass a starting argument (level 0)
+// start("game", 0);
 
 scene('2', (score) => {
   const JUMP_FORCE = 360
@@ -347,9 +392,11 @@ scene('2', (score) => {
     player.move(MOVE_SPEED, 0)
   })
 
-  scene('lose', ({ score }) => {
-    add([text(score, 32), origin('center'), pos(width() / 2, height() / 2)])
-  })
+})
+
+// scenes are defined out most, not in other scenes
+scene('lose', ({ score }) => {
+  add([text(score, 32), origin('center'), pos(width() / 2, height() / 2)])
 })
 
 start('1')
