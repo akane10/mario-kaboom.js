@@ -269,14 +269,14 @@ scene('game', (level) => {
 // start with "game" scene and pass a starting argument (level 0)
 // start("game", 0);
 
-scene('2', (score) => {
+scene('2', (scoreValue) => {
   const JUMP_FORCE = 360
   const MOVE_SPEED = 120
   const ENEMY_SPEED = 20
   let isJumping = false
 
-  add([
-    text(score),
+  const score = add([
+    text(scoreValue),
     pos(6, 6),
     layer('ui'),
     {
@@ -314,7 +314,7 @@ scene('2', (score) => {
       // define each object as a list of components
       '=': [sprite('blue-block'), scale(0.5), solid()],
       '%': [sprite('blue-brick'), scale(0.5), solid()],
-      $: [sprite('coin'), 'coin'],
+      '$': [sprite('coin'), 'coin'],
       '^': [sprite('blue-evil-shroom'), scale(0.5), 'dangerous'],
       '@': [sprite('blue-surprise'), scale(0.5), solid(), 'coin-surprise'],
       '*': [sprite('blue-steel'), scale(0.5), solid()],
