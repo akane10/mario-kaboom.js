@@ -1,7 +1,7 @@
 kaboom({
     global: true,
     fullscreen: true,
-    scale: 2,
+    scale: 1,
   })
   
   loadRoot('https://i.imgur.com/')
@@ -25,7 +25,11 @@ kaboom({
   loadSprite('blue-evil-shroom', 'SvV4ueD.png')
   loadSprite('blue-surprise', 'RMqCc1G.png')
   
- 
+  
+  
+  // so i noticed you're copying some stuff in between scenes, 1 and 2 are both
+  // game scenes which use the same logic, i define them as one scene, and use
+  // the scene argument to decide which level data to load
   scene('game', (level) => {
     // define some constants
   const JUMP_FORCE = 360
@@ -248,4 +252,6 @@ kaboom({
   
   // start with "game" scene and pass a starting argument (level 0)
   start("game", 0);
- 
+  
+  
+  
