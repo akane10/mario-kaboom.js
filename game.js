@@ -2,7 +2,8 @@ kaboom({
     global: true,
     fullscreen: true,
     scale: 1,
-  debug: true,
+    debug: true,
+    clearColor: [0,0,0,1]
   })
 
   loadRoot('https://i.imgur.com/')
@@ -26,20 +27,14 @@ kaboom({
   loadSprite('blue-evil-shroom', 'SvV4ueD.png')
   loadSprite('blue-surprise', 'RMqCc1G.png')
 
-
-
-  // so i noticed you're copying some stuff in between scenes, 1 and 2 are both
-  // game scenes which use the same logic, i define them as one scene, and use
-  // the scene argument to decide which level data to load
   scene('game', ({ level, score, }) => {
-    // define some constants
   const JUMP_FORCE = 360
   const BIG_JUMP_FORCE = 550
   let CURRENT_JUMP_FORCE = JUMP_FORCE
   const MOVE_SPEED = 120
   const FALL_DEATH = 640
   const ENEMY_SPEED = 20
-    let isJumping = false
+  let isJumping = false
 
   // draw background on the bottom, ui on top, layer "obj" is default
   layers(['bg', 'obj', 'ui'], 'obj')
@@ -107,9 +102,6 @@ kaboom({
 
   const gameLevel = addLevel(maps[level], levelCfg);
 
-  // now 'scoreLevel' is a game object, 'score' is a plain number, we pass the
-  // plain number 'score' between scenes, and construct the 'scoreLabel' game
-  // object with it
   const scoreLabel = add([
     text(score),
     pos(30, 6),
@@ -225,7 +217,6 @@ kaboom({
     player.collides('pipe', () => {
       keyPress('down', () => {
         go("game", {
-          // there's no level 3 so i made it cycle for now
           level: (level + 1) % maps.length,
           score: scoreLabel.value
         })
@@ -234,7 +225,6 @@ kaboom({
 
     // jump with space
     keyPress('space', () => {
-      // these 2 functions are provided by body() component
       if (player.grounded()) {
         isJumping = true
         player.jump(CURRENT_JUMP_FORCE )
@@ -251,13 +241,8 @@ kaboom({
 
   });
 
-// it works but scenes are supposed to define at root level
 scene('lose', ({ score }) => {
   add([text(score, 32), origin('center'), pos(width() / 2, height() / 2)])
 })
 
-  // start with "game" scene and pass a starting argument (level 0)
-  start("game", { level: 0, score: 0, });
-
-
-
+start("game", { level: 0, score: 0, });
